@@ -9,10 +9,10 @@ Now here's the important part - write a method that tests whether or not 2 cuboi
 Bonus points:
 Allow your objects to rotate (to keep it simple, only at 90 degree angles). The "tricky" part about the rotation is that - imagine the origin is walled - a rotation of an object that is up against a corner would also require the object to shift if you are rotating the object around its origin. This restriction exists because the objects are actually part of a bin packing algorithm - meaning the objects are inside a box and can only exist within the walls of the outer box. 
 
-We expect that you should be able to complete this challenge with 2-5 hours of work, depending on how thorough you are.
+We expect that you should be able to complete this challenge with 1-3 hours of work, depending on how thorough you are.  If it's taking longer than that then please re-read the directions or reach out to us becuase you might be doing more than is necessary.
 
 ## How to submit your results
-Please follow these directions precisely because they effect our ability to evaluate your results.
+Please follow these directions precisely because they affect our ability to evaluate your results.
 
 1. Fork this repo
 2. Create a new branch in git with your name (ie. tim-cull)
