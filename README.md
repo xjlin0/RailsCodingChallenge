@@ -30,6 +30,7 @@ We are looking for several things with this challenge.  First, of course, we're 
 Basically, write the code as if you were going to release it to a real website with an actual warehouse and if you mess it up then boxes will start piling up on the floor and stuff.  Because that's what happened to us.
 
 When we get your response, here's exactly what we're going to do:
+
 1. Run "bundle exec rake" and see that the tests pass.
 2. Look at the code itself to see its correctness, readability, and general elegance.
 3. Look at the tests to see their correctness, readability, and comprehensiveness.
