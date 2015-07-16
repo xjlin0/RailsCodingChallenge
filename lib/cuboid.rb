@@ -32,17 +32,17 @@ class Cuboid
   attr_accessor :origin, :length, :width, :height
   #BEGIN public methods that should be your starting point
 
-    # length is on x axle, width is on y axle, height is on z axle
-    def initialize(options={})
-      origin = options.fetch(:origin) rescue raise("need a Point as the origin")
-      length = options.fetch(:length) rescue raise("need length")
-      width  = options.fetch(:width)  rescue raise("need width")
-      height = options.fetch(:height) rescue raise("need height")
-      @origin = origin.is_a?(Point) ? origin : raise("not a Point!")
-      @length = options.fetch(:length).is_a?(Numeric) && length > 0 ? length : raise("need positive number!")
-      @width  = options.fetch(:width).is_a?(Numeric)  && width  > 0 ? width  : raise("need positive number!")
-      @height = options.fetch(:height).is_a?(Numeric) && height > 0 ? height : raise("need positive number!")
-    end
+  # length is on x axle, width is on y axle, height is on z axle
+  def initialize(options={})
+    origin = options.fetch(:origin) rescue raise("need a Point as the origin")
+    length = options.fetch(:length) rescue raise("need length")
+    width  = options.fetch(:width)  rescue raise("need width")
+    height = options.fetch(:height) rescue raise("need height")
+    @origin = origin.is_a?(Point) ? origin : raise("not a Point!")
+    @length = options.fetch(:length).is_a?(Numeric) && length > 0 ? length : raise("need positive number!")
+    @width  = options.fetch(:width).is_a?(Numeric)  && width  > 0 ? width  : raise("need positive number!")
+    @height = options.fetch(:height).is_a?(Numeric) && height > 0 ? height : raise("need positive number!")
+  end
 
   # Inputs of move_to! method is order-dependent, should be in the sequence of x , y , z.
   def move_to!(x, y, z)
@@ -81,18 +81,17 @@ class Cuboid
     return false
   end
 
-  def rotate_at_x
+  def rotate_by_x!
     @height, @width = @width, @height
   end
 
-  def rotate_at_y
+  def rotate_by_y!
     @height, @length = @length, @height
   end
 
-  def rotate_at_z
+  def rotate_by_z!
     @length, @width = @width, @length
   end
 
   #END public methods that should be your starting point
 end
-
