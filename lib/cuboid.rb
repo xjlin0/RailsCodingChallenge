@@ -2,9 +2,9 @@ class Point
   attr_accessor :x, :y, :z
 
   def initialize(coordinates={})
-    x = coordinates.fetch(:x)
-    y = coordinates.fetch(:y)
-    z = coordinates.fetch(:z)
+    x = coordinates.fetch(:x) rescue raise("need x")
+    y = coordinates.fetch(:y) rescue raise("need y")
+    z = coordinates.fetch(:z) rescue raise("need z")
     @x = x.is_a?(Numeric) ? x : raise("not a number!")
     @y = y.is_a?(Numeric) ? y : raise("not a number!")
     @z = z.is_a?(Numeric) ? z : raise("not a number!")
@@ -25,32 +25,38 @@ class Point
     return Point.new(x: @x, y: @y, z: @z + shift)
   end
 
+  def above_wall_of?(other) #check if a point is within wall limits of the other point
+    other_point = other.is_a?(Point) ? other : raise("not a Point!")
+    return false if @x < other_point.x
+    return false if @y < other_point.y
+    return false if @z < other_point.z
+    return true
+  end
 end
 
 
 class Cuboid
   attr_accessor :origin, :length, :width, :height
   #BEGIN public methods that should be your starting point
-    def initialize(options={})
-      # length is on x axle, width is on y axle, height is on z axle
-      origin = options.fetch(:origin)
-      length = options.fetch(:length)
-      width  = options.fetch(:width)
-      height = options.fetch(:height)
-      @origin = origin.is_a?(Point)   ? origin : raise("not a Point!")
-      @length = length > 0 ? length : raise("need positive number!")
-      @width  = width  > 0 ? width  : raise("need positive number!")
-      @height = height > 0 ? height : raise("need positive number!")
+    def initialize(options={})  # length is on x axle, width is on y axle, height is on z axle
+      origin = options.fetch(:origin) rescue raise("need a Point as the origin")
+      length = options.fetch(:length) rescue raise("need length")
+      width  = options.fetch(:width)  rescue raise("need width")
+      height = options.fetch(:height) rescue raise("need height")
+      @origin = origin.is_a?(Point) ? origin : raise("not a Point!")
+      @length = options.fetch(:length).is_a?(Numeric) && length > 0 ? length : raise("need positive number!")
+      @width  = options.fetch(:width).is_a?(Numeric) && width  > 0 ? width  : raise("need positive number!")
+      @height = options.fetch(:height).is_a?(Numeric) && height > 0 ? height : raise("need positive number!")
     end
 
   def move_to!(x, y, z)
-    # Inputs of move_to! method is order-depedent, should be x , y , z.
+    # Inputs of move_to! method is order-dependent, should be in the sequence of x , y , z.
     new_origin = Point.new(x: x, y: y, z: z)
     @origin = new_origin
   end
 
-  def vertices # length is on x axle, width is on y axle, height is on z axle
-    # outout 8 points of a cuboid
+  def vertices
+    # outout 8 points of a cuboid [length on x, width on y, height on z]
     o  = @origin
     ox = @origin.movex(@length)
     oy = @origin.movey(@width)
@@ -62,11 +68,23 @@ class Cuboid
     return [ o, ox, oy, oxy, oz, oxz, oyz, oxyz ]
   end
 
+  def contains?(point) #Test if a point is excusively inside of a cuboid
+    p = point.is_a?(Point) ? point : raise("not a Point!")
+    return false if p.x < @origin.x || p.x > @origin.movex(@length).x
+    return false if p.y < @origin.y || p.y > @origin.movey(@width).y
+    return false if p.z < @origin.z || p.z > @origin.movez(@height).z
+    return true
+  end
+
   #returns true if the two cuboids intersect each other.  False otherwise.
   def intersects?(other)
+    other_cuboid = other.is_a?(Cuboid) ? other : raise("not a Cuboid!")
+    other_cuboid.vertices.each do |vertice|
+      return true if self.contains?(vertice)
+    end
+    return false
   end
 
   #END public methods that should be your starting point
 end
-
 
